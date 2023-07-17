@@ -11,8 +11,8 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/countries/:continentId" element={<Country />}/>
-        <Route path="/list/:countryId" element={<Destination />} />
-        <Route path="/detail/:destinationId" element={<DestinationDetail />}/>
+        <Route path="/:continentId/list/:countryId" element={<Destination />} />
+        <Route path="/:continentId/list/:countryId/detail/:destinationId" element={<DestinationDetail />}/>
       </Routes>
     </div>
   );

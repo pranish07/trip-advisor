@@ -1,39 +1,52 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { data } from "../../data";
-import "./detail.css"
+import "./detail.css";
 
 export const DestinationDetail = () => {
-  const { destinationId } = useParams();
+  const { continentId, countryId, destinationId } = useParams();
 
-  const destination = data.continents
-    .flatMap((continent) => continent.countries)
-    .flatMap((country) => country.destinations)
-    .find((destination) => destination.id === parseInt(destinationId));
+  const navigate = useNavigate();
 
+  const findContinents = data.continents.find(
+    (continent) => continent.id === parseInt(continentId)
+  );
+
+  const findCountry = findContinents.countries.find(
+    (country) => country.id === parseInt(countryId)
+  );
+
+  const findDestination = findCountry.destinations.find(
+    (destination) => destination.id === Number(destinationId)
+  );
   return (
     <div>
-      {destination && (
+      {findDestination && (
         <div>
-          <h1 className="detail-heading">{destination.name}</h1>
+          <h1 className="detail-heading" onClick={()=>navigate(`/${continentId}/list/${countryId}`)}>{findDestination.name}</h1>
           <div className="container">
-          <img src={destination.image} alt={destination.name} height={250} width={250}/>
-          <div className="right-col">
-          <p>{destination.description}</p>
-          <p>Location: {destination.location}</p>
-          <p>Opening Hours: {destination.openingHours}</p>
-          <p>Ticket Price: {destination.ticketPrice}</p>
-          <p>Ratings: {destination.ratings}</p>
-          <p> Reviews: {destination.reviews}</p>
-          <a
-            href={destination.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{color:"purple",textDecoration:"none"}}
-          >
-           Website
-          </a>
-          </div>
+            <img
+              src={findDestination.image}
+              alt={findDestination.name}
+              height={250}
+              width={250}
+            />
+            <div className="right-col">
+              <p>{findDestination.description}</p>
+              <p>Location: {findDestination.location}</p>
+              <p>Opening Hours: {findDestination.openingHours}</p>
+              <p>Ticket Price: {findDestination.ticketPrice}</p>
+              <p>Ratings: {findDestination.ratings}</p>
+              <p> Reviews: {findDestination.reviews}</p>
+              <a
+                href={findDestination.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "purple", textDecoration: "none" }}
+              >
+                Website
+              </a>
+            </div>
           </div>
         </div>
       )}
